@@ -17,6 +17,9 @@ gem 'puma'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+# DynamoDB integration
+gem 'aws-sdk', '~> 2'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
