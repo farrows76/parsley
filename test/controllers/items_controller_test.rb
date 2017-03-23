@@ -20,9 +20,8 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  # test "should create an item" do
-  #   post item_create_url(params: @data)
-  #   assert_response :success
-  # end
-
+  test "should create an item" do
+    post item_create_url(params: @data)
+    assert_response :success
+  end
 end

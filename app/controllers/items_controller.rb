@@ -1,5 +1,4 @@
 class ItemsController < ApplicationController
-
   def update
     item = Item.find(params[:id])
     if item && item.update(params[:item])
