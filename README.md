@@ -46,15 +46,15 @@ Find expects you to pass an **ID** along with the request to find a specific ite
 
 An example of a find request would be like this:
 
-```
-  // Using curl to make the GET request
+```ruby
+  # Using curl to make the GET request
   curl --header "Accept:application/json" http://parsley.us-west-2.elasticbeanstalk.com/find/1033424
   
-  // Either returns a 404 not found
-  {"status":404,"error":"Not Found"}
+  # Either returns a 404 not found
+  => {"status":404,"error":"Not Found"}
   
-  // Or the item from the database
-  {"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}
+  # Or the item from the database
+  => {"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}
 ```
 
 
