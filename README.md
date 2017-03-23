@@ -15,6 +15,34 @@ Endpoints:
   * parsley.us-west-2.elasticbeanstalk.com/create
 
   * parsley.us-west-2.elasticbeanstalk.com/upload
+  
+    curl --header "Accept:application/json" http://parsley.us-west-2.elasticbeanstalk.com/find/1033424 | python -m json.tool
+  
+    curl --header "Accept:application/json" http://localhost:3000/find/1033 | python -m json.tool
+  
+    require 'net/http'
+
+    url = URI.parse('http://parsley.us-west-2.elasticbeanstalk.com/find/1033424')
+    url = URI.parse('http://localhost:3000/find/1033424')
+    req = Net::HTTP::Get.new(url.to_s)
+    res = Net::HTTP.start(url.host, url.port) {|http|
+      http.request(req)
+    }
+    puts res.body
+    
+    
+    
+    curl -i -X POST -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/create -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}}' | python -m json.tool
+    curl -i -X POST -H "Content-Type:application/json" http://localhost:3000/create -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}}' | python -m json.tool
+    
+    curl -i -X PUT -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/update -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}}' | python -m json.tool
+    curl -i -X PUT -H "Content-Type:application/json" http://localhost:3000/update -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":false,"publish_track_actions":false}}}' | python -m json.tool
+    
+    
+    curl -i -X PUT -H "Content-Type:application/json" http://localhost:3000/update -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":false,"publish_track_actions":false}, "notification_settings": {"just_announced": "false", "friend_comment": "true"}}}' | python -m json.tool
+    
+    
+    curl -i -X POST -H "Content-Type:application/json" http://localhost:3000/upload -d '{"url": "https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output" }' | python -m json.tool
 
 Things you may want to cover:
 

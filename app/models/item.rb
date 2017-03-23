@@ -21,7 +21,7 @@ class Item
   def attributes_to_update
     tmp_data = {}
     data.each do |key, value|
-      tmp_data[key] = { 'Action' => 'PUT', 'Value' => value } unless key == 'id'
+      tmp_data[key] = { action: 'PUT', value: value } unless key == 'id'
     end
     tmp_data
   end
@@ -33,7 +33,7 @@ class Item
         table_name: 'Bandsintown',
         key: { 'id' => id }
       )
-    response.item
+    response.item ? Item.new(response.item) : nil
   rescue Aws::DynamoDB::Errors::ServiceError => e
     handle_error(e)
   end
@@ -51,12 +51,11 @@ class Item
 
   def update(attributes)
     return false unless valid?(attributes)
-    data.merge!(attributes)
+    data.merge!(truthify_hash(attributes)) # make sure we truthify the updated attributes
     dynamodb.update_item(
       table_name: 'Bandsintown',
-      key: { 'id' => id },
-      attribute_updates: attributes_to_update,
-      return_values: 'UPDATED_NEW'
+      key: { id: data['id'] },
+      attribute_updates: attributes_to_update
     )
   rescue Aws::DynamoDB::Errors::ServiceError => e
     handle_error(e)
@@ -74,13 +73,13 @@ class Item
   def valid?(attributes)
     # Checks to make sure the data is in the proper format and includes the
     #   id Primary Key
-    return true if attributes.key?('id')
-    errors.add(:data, message: 'incorrect format of data')
+    return true if (attributes.is_a? Hash) && attributes.key?('id')
+    errors.add(:data, :invalid, message: 'Incorrect format of data')
     false # is not valid
   end
 
   def handle_error(e)
-    errors.add(:data, message: e.message)
+    errors.add(:data, :invalid, message: e.message)
     false # did not save
   end
 

@@ -20,7 +20,7 @@ class ParserService
         # Init a new item to store
         item = Item.new(hashed_line)
         # Save the item and store the results
-        create_and_handle_results(item)
+        item.create ? results['success'] += 1 : handle_errors(item)
       end
     end
     results
@@ -47,15 +47,12 @@ class ParserService
     %w(http https).include?(uri.scheme)
   end
 
-  def handle_results(item)
-    if item.create
-      results['success'] += 1
-    else
-      # Need to track the errors
-      item.errors.full_messages.each do |msg|
-        results['failed'] += 1
-        results.key?(msg) ? results[msg] += 1 : results[msg] = 0
-      end
+  # Attempts to save the items and tracks the number of successes or failures
+  def handle_errors(item)
+    # Need to track the errors
+    item.errors.values.each do |msg|
+      results['failed'] += 1
+      results.key?(msg[0]) ? results[msg[0]] += 1 : results[msg[0]] = 1
     end
   end
 end
