@@ -9,13 +9,13 @@ class ParserService
     @url = url
   end
 
-  def parse
+  def upload_file
     raise ArgumentError, 'URL is not valid' unless url_valid?
     open(url) do |f|
       t = 0
       f.each_line do |line|
         # Parse line and convert to a hash
-        hashed_line = convert_to_hash(line)
+        hashed_line = hashify(line)
 
         if t < 10
           item = Item.new(hashed_line)
@@ -32,14 +32,7 @@ class ParserService
     end
   end
 
-  private
-
-  def url_valid?
-    uri = URI.parse(url)
-    %w(http https).include?(uri.scheme)
-  end
-
-  def convert_to_hash(line)
+  def hashify(line)
     # From Squish - Rails method remove whitespace, /n, and change /t to a space
     line.gsub!(/\A[[:space:]]+/, '')
     line.gsub!(/[[:space:]]+\z/, '')
@@ -51,5 +44,12 @@ class ParserService
 
     # Return the correctly formatted hash
     { "id" => JSON.parse(elements[0]) }.merge(JSON.parse(elements[1]))
+  end
+
+  private
+
+  def url_valid?
+    uri = URI.parse(url)
+    %w(http https).include?(uri.scheme)
   end
 end
