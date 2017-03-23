@@ -40,6 +40,8 @@ A JSON request to the API would look like this:
   }
 ```
 
+> Before the item is stored, the API will change all the "truth" and "false" strings to booleans
+
 ## Find
 
 Find expects you to pass an **ID** along with the request to find a specific item in the database.
@@ -93,7 +95,6 @@ An example of a create request would be like this:
   # Or returns the created item as it was stored in the database
   => {"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}
 ```
-> Before the item is stored, the API will change all the "truth" and "false" strings to booleans
 
 ## Upload
 
@@ -111,22 +112,3 @@ An example of an upload request would be like this:
   # Will return a results hash with the number of success and failed items it attempted to create
   => {"success":40,"failed":87,"The conditional request failed":87}
 ```
-> Before the item is stored, the API will change all the "truth" and "false" strings to booleans
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
