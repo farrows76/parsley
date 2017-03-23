@@ -2,8 +2,6 @@ class Item
   # Required dependency for ActiveModel::Errors
   extend ActiveModel::Naming
 
-  # {"id"=>"905772", "sharing_settings"=>{"publish_track_actions"=>"false", "publish_rsvp_actions"=>"true", "notification_settings"=>{"just_announced"=>"false", "friend_comment"=>"true"}}}
-
   def initialize(data = {})
     @data = truthify_hash(data)
     @dynamodb = Aws::DynamoDB::Client.new
@@ -17,7 +15,7 @@ class Item
     @data = truthify_hash(val)
   end
 
-  def data_attributes
+  def attributes_to_update
     tmp_data = Hash.new()
     data.each do |key, value|
       tmp_data[key] = { "Action" => "PUT", "Value" => value } unless key == "id"
@@ -54,16 +52,11 @@ class Item
     dynamodb.update_item(
       table_name: "Bandsintown",
       key: { 'id' => id },
-      attribute_updates: data_attributes,
+      attribute_updates: attributes_to_update,
       return_values: 'UPDATED_NEW'
     )
   rescue Aws::DynamoDB::Errors::ServiceError => e
     handle_error(e)
-  end
-
-  def valid?(attributes)
-    return true if attributes.has_key?('id')
-    errors.add(:data, message: "incorrect format of data") and return false
   end
 
   def truthify_hash(hash)
@@ -75,10 +68,17 @@ class Item
     end
   end
 
+  def valid?(attributes)
+    # Checks to make sure the data is in the proper format and includes the Id Primary Key
+    return true if attributes.has_key?('id')
+    errors.add(:data, message: "incorrect format of data") and return false
+  end
+
   def handle_error(e)
     errors.add(:data, message: e.message) and return false
   end
 
+  # Required for active model errors integration
   def read_attribute_for_validation(attr)
     send(attr)
   end
