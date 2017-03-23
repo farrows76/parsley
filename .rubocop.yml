@@ -1,6 +1,1 @@
 inherit_from: .rubocop_todo.yml
-
-# Style/StringLiterals:
-#   SupportedStyles:
-#     - single_quotes
-#     - double_quotes

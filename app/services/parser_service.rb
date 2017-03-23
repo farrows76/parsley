@@ -1,13 +1,36 @@
 require 'open-uri'
-# Opens a file from a url then parses each line and turns it into a JSON Dictionary
-# Example URL: https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output
 
+# Opens a file from a url then parses each line and turns it into a
+#   JSON Dictionary
 class ParserService
   attr_reader :url
 
   def initialize(url)
     @url = url
   end
+
+  # def upload_file
+  #   raise ArgumentError, 'URL is not valid' unless url_valid?
+  #   open(url) do |f|
+  #     t = 0
+  #     f.each_line do |line|
+  #       # Parse line and convert to a hash
+  #       hashed_line = hashify(line)
+  #
+  #       if t < 10
+  #         item = Item.new(hashed_line)
+  #         if item.create
+  #           # TODO: need to track stuff
+  #         else
+  #           puts item.errors.full_messages
+  #         end
+  #       end
+  #       p hashed_line
+  #       t += 1
+  #     end
+  #     p "Total lines = #{t}"
+  #   end
+  # end
 
   def upload_file
     raise ArgumentError, 'URL is not valid' unless url_valid?
@@ -16,19 +39,10 @@ class ParserService
       f.each_line do |line|
         # Parse line and convert to a hash
         hashed_line = hashify(line)
-
-        if t < 10
-          item = Item.new(hashed_line)
-          unless item.create
-            puts item.errors.full_messages
-          else
-            
-          end
-        end
-        p hashed_line
-        t += 1
+        # Create a new item to store
+        item = Item.new(hashed_line)
+        item.create ? t += 1 : item.errors.full_messages
       end
-      p "Total lines = #{t}"
     end
   end
 
@@ -43,7 +57,7 @@ class ParserService
     return nil unless elements.length == 2
 
     # Return the correctly formatted hash
-    { "id" => JSON.parse(elements[0]) }.merge(JSON.parse(elements[1]))
+    { 'id' => JSON.parse(elements[0]) }.merge(JSON.parse(elements[1]))
   end
 
   private

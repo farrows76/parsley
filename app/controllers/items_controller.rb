@@ -16,12 +16,13 @@ class ItemsController < ApplicationController
     if item.create
       render status: :ok, json: item
     else
-      
+      render status: :unprocessable_entity, json: item.errors
     end
   end
 
   def upload
     url = params[:url]
     results = ParserService.new(url).upload_file
+    render status: :ok, json: results
   end
 end
