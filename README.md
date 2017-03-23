@@ -130,3 +130,7 @@ An example of an upload request would be like this:
   # Will return a results hash with the number of success and failed items it attempted to create
   => {"success":40,"failed":87,"The conditional request failed":87}
 ```
+
+## Credits
+Thank you for allowing me to show you my skill set and giving me the opportunity to become a part of your team! If you have
+any questions about the API please don't hesitate to ask.
