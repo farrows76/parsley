@@ -93,7 +93,7 @@ An example of an update request would be like this:
   => {"status":404,"error":"Not Found"}
   
   # Or returns the updated item as it was stored in the database
-  => {"id":"1033424","sharing_settings":{"publish_rsvp_actions":false,"publish_track_actions":false},"notification_settings":{"just_announced":false,"friend_comment":true}}}
+  => {"id":"1033424","sharing_settings":{"publish_rsvp_actions":false,"publish_track_actions":false},"notification_settings":{"just_announced":false,"friend_comment":true}}
 ```
 
 ## Create
