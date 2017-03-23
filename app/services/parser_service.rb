@@ -1,49 +1,29 @@
 require 'open-uri'
 
 # Opens a file from a url then parses each line and turns it into a
-#   JSON Dictionary
+#   JSON Dictionary and stores the JSON in a DynamoDB NoSQL Database
 class ParserService
   attr_reader :url
+  attr_accessor :results
 
   def initialize(url)
     @url = url
+    @results = { 'success' => 0, 'failed' => 0 }
   end
-
-  # def upload_file
-  #   raise ArgumentError, 'URL is not valid' unless url_valid?
-  #   open(url) do |f|
-  #     t = 0
-  #     f.each_line do |line|
-  #       # Parse line and convert to a hash
-  #       hashed_line = hashify(line)
-  #
-  #       if t < 10
-  #         item = Item.new(hashed_line)
-  #         if item.create
-  #           # TODO: need to track stuff
-  #         else
-  #           puts item.errors.full_messages
-  #         end
-  #       end
-  #       p hashed_line
-  #       t += 1
-  #     end
-  #     p "Total lines = #{t}"
-  #   end
-  # end
 
   def upload_file
     raise ArgumentError, 'URL is not valid' unless url_valid?
     open(url) do |f|
-      t = 0
       f.each_line do |line|
         # Parse line and convert to a hash
         hashed_line = hashify(line)
-        # Create a new item to store
+        # Init a new item to store
         item = Item.new(hashed_line)
-        item.create ? t += 1 : item.errors.full_messages
+        # Save the item and store the results
+        create_and_handle_results(item)
       end
     end
+    results
   end
 
   def hashify(line)
@@ -65,5 +45,17 @@ class ParserService
   def url_valid?
     uri = URI.parse(url)
     %w(http https).include?(uri.scheme)
+  end
+
+  def handle_results(item)
+    if item.create
+      results['success'] += 1
+    else
+      # Need to track the errors
+      item.errors.full_messages.each do |msg|
+        results['failed'] += 1
+        results.key?(msg) ? results[msg] += 1 : results[msg] = 0
+      end
+    end
   end
 end
