@@ -23,7 +23,7 @@ Endpoints:
 
 ## Links of Interest
 
-There arevthree files that contain most of the code for this API
+There are three files that contain most of the code for this API
 
 * Items Controller - https://github.com/farrows76/parsley/blob/master/app/controllers/items_controller.rb
 * Item Model - https://github.com/farrows76/parsley/blob/master/app/models/item.rb
