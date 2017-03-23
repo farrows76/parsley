@@ -59,7 +59,7 @@ An example of a find request would be like this:
 
 ## Update
 
-Update expects you to pass an **item** hash in the body of the request. The **item** hash must have at least an **id** as a key.
+Update expects you to pass an **ITEM** hash in the body of the request. The **ITEM** hash must have at least an **id** as a key.
 Updating an item will update the existing key's values that were retrieved from the database as well add any additional key/values
 that are new.
 
@@ -78,7 +78,7 @@ An example of an update request would be like this:
 
 ## Create
 
-Create expects you to pass an **item** hash in the body of the request. The **item** hash must have at least an **id** as a key.
+Create expects you to pass an **ITEM** hash in the body of the request. The **ITEM** hash must have at least an **id** as a key.
 If the item already exists in the database it will return a validation error and not update that item.
 
 An example of a create request would be like this:
@@ -93,10 +93,11 @@ An example of a create request would be like this:
   # Or returns the created item as it was stored in the database
   => {"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}
 ```
+> Before the item is stored, the API will change all the "truth" and "false" strings to booleans
 
 ## Upload
 
-Upload expects you to pass an **url** hash in the body of the request. The **url** hash a valid url string with either an
+Upload expects you to pass an **URL** hash in the body of the request. The **URL** hash a valid url string with either an
 "http" or "https".
 
 Example URL: https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output
@@ -110,7 +111,7 @@ An example of an upload request would be like this:
   # Will return a results hash with the number of success and failed items it attempted to create
   => {"success":40,"failed":87,"The conditional request failed":87}
 ```
-
+> Before the item is stored, the API will change all the "truth" and "false" strings to booleans
 
 Things you may want to cover:
 
