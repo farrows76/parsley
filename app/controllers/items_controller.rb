@@ -26,7 +26,7 @@ class ItemsController < ApplicationController
     if item.create
       render status: :ok, json: item.data
     else
-      render status: :ok, json: { error: item.errors }
+      render status: :unprocessable_entity, json: { error: item.errors }
     end
   end
 

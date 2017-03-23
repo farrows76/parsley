@@ -14,11 +14,11 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
         }
       }
 
-      @url = 'https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output'
+    @url = 'https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output'
   end
 
-  test 'should find an item' do
-    get find_item_url(id: 905772)
+  test 'should not find an item' do
+    get find_item_url(id: '905772')
     assert_response :success
   end
 
