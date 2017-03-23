@@ -1,6 +1,6 @@
 # Welcome to Parsley
 
-Parsely is an API that migrates data from that file and inserts the data into a NoSQL database (DynamoDB).
+Parsely is an API that parses data from a file, turns the data into a hash and inserts it into a NoSQL database (DynamoDB).
 Parsely has four endpoints (Find, Update, Create, and Upload) where you can store new or update existing items
 in the NoSQL database.
 
@@ -47,48 +47,70 @@ Find expects you to pass an **ID** along with the request to find a specific ite
 An example of a find request would be like this:
 
 ```shell
-  # Using curl to make the GET request
+  # Using curl to make the GET find request
   curl --header "Accept:application/json" http://parsley.us-west-2.elasticbeanstalk.com/find/1033424
   
   # Either returns a 404 not found
   => {"status":404,"error":"Not Found"}
   
-  # Or the item from the database
+  # Or returns the item from the database
   => {"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}
 ```
 
 ## Update
 
-Find expects you to pass an **item** hash in the body of the request. The **item** hash must have least an **id** as a key.
-Updating an item will update the existing key's values that were stored in the database as well add any additional key/values
-that were are new.
+Update expects you to pass an **item** hash in the body of the request. The **item** hash must have at least an **id** as a key.
+Updating an item will update the existing key's values that were retrieved from the database as well add any additional key/values
+that are new.
 
-An example of a update request would be like this:
+An example of an update request would be like this:
 
 ```shell
-  # Using curl to make the PUT request
+  # Using curl to make the PUT update request
   curl -i -X PUT -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/update -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":"false","publish_track_actions":"false"},"notification_settings":{"just_announced":"false","friend_comment":"true"}}}}'
   
   # Either returns a 404 not found
   => {"status":404,"error":"Not Found"}
   
-  # Or the updated item as it was stored in the database
+  # Or returns the updated item as it was stored in the database
   => {"id":"1033424","sharing_settings":{"publish_rsvp_actions":false,"publish_track_actions":false},"notification_settings":{"just_announced":false,"friend_comment":true}}}
 ```
 
+## Create
 
+Create expects you to pass an **item** hash in the body of the request. The **item** hash must have at least an **id** as a key.
+If the item already exists in the database it will return a validation error and not update that item.
 
+An example of a create request would be like this:
 
+```shell
+  # Using curl to make the POST create request
+  curl -i -X POST -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/create -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}}'
+  
+  # Either returns a 422 unprocessable entity
+  => {"error":{"data":["The conditional request failed"]}}
+  
+  # Or returns the created item as it was stored in the database
+  => {"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}
+```
+
+## Upload
+
+Upload expects you to pass an **url** hash in the body of the request. The **url** hash a valid url string with either an
+"http" or "https".
 
 Example URL: https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output
 
+An example of an upload request would be like this:
 
+```shell
+  # Using curl to make the POST upload request
+  curl -i -X POST -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/upload -d '{"url": "https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output" }'
+  
+  # Will return a results hash with the number of success and failed items it attempted to create
+  => {"success":40,"failed":87,"The conditional request failed":87}
 ```
-curl -i -X POST -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/create -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}}'
 
-
-curl -i -X POST -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/upload -d '{"url": "https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output" }'
-```
 
 Things you may want to cover:
 
