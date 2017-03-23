@@ -1,5 +1,14 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  # Load ENV Variables
+  config.before_configuration do
+    env_file = File.join(Rails.root, 'config', 'local_env.yml')
+    if File.exist?(env_file)
+      YAML.safe_load(File.open(env_file)).each do |key, value|
+        ENV[key.to_s] = value
+      end
+    end
+  end
 
   # The test environment is used exclusively to run your application's
   # test suite. You never need to work with it otherwise. Remember that

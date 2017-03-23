@@ -24,11 +24,17 @@ gem 'aws-sdk', '~> 2'
 # gem 'capistrano-rails', group: :development
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
+
+group :test do
+  gem 'minitest-reporters'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  gem 'guard'
+  gem 'guard-minitest'
 end
 
 group :development do

@@ -1,7 +1,8 @@
-# README
+# Welcome to ChefHub
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Parsely is an API that takes a file and migrates the data from that file into a into a NoSQL database (DynamoDB).
+Parsely has two endpoints (PUT, and POST) where you can store new or update existing items in the NoSQL
+database.
 
 Things you may want to cover:
 

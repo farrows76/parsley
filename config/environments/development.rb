@@ -1,5 +1,14 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  # Load ENV Variables
+  config.before_configuration do
+    env_file = File.join(Rails.root, 'config', 'local_env.yml')
+    if File.exist?(env_file)
+      YAML.safe_load(File.open(env_file)).each do |key, value|
+        ENV[key.to_s] = value
+      end
+    end
+  end
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -7,7 +16,7 @@ Rails.application.configure do
   config.cache_classes = false
 
   # Do not eager load code on boot.
-  config.eager_load = false
+  config.eager_load = true
 
   # Show full error reports.
   config.consider_all_requests_local = true
