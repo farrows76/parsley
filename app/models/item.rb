@@ -1,3 +1,6 @@
+##
+# Represents a data hash object that is can be stored in a DynamoDB
+# NoSql Database.
 class Item
   # Required dependency for ActiveModel::Errors
   extend ActiveModel::Naming
@@ -16,16 +19,16 @@ class Item
   end
 
   def attributes_to_update
-    tmp_data = Hash.new()
+    tmp_data = {}
     data.each do |key, value|
-      tmp_data[key] = { "Action" => "PUT", "Value" => value } unless key == "id"
+      tmp_data[key] = { 'Action' => 'PUT', 'Value' => value } unless key == 'id'
     end
     tmp_data
   end
 
   def self.find(id)
     dynamodb = Aws::DynamoDB::Client.new
-    response = 
+    response =
       dynamodb.get_item(
         table_name: 'Bandsintown',
         key: { 'id' => id }
@@ -38,7 +41,7 @@ class Item
   def create
     return false unless valid?(data)
     dynamodb.put_item(
-      table_name: "Bandsintown",
+      table_name: 'Bandsintown',
       item: data,
       condition_expression: 'attribute_not_exists(id)'
     )
@@ -47,10 +50,10 @@ class Item
   end
 
   def update(attributes)
-    return false unless valid?(attrubutes)
-    self.data.merge!(attrubutes)
+    return false unless valid?(attributes)
+    data.merge!(attributes)
     dynamodb.update_item(
-      table_name: "Bandsintown",
+      table_name: 'Bandsintown',
       key: { 'id' => id },
       attribute_updates: attributes_to_update,
       return_values: 'UPDATED_NEW'
@@ -63,19 +66,22 @@ class Item
     # Recursively go through the hash and and convert truth strings to booleans
     hash.each do |key, value|
       truthify_hash(value) if value.is_a? Hash
-      hash[key] = true if value == "true"
-      hash[key] = false if value == "false"
+      hash[key] = true if value == 'true'
+      hash[key] = false if value == 'false'
     end
   end
 
   def valid?(attributes)
-    # Checks to make sure the data is in the proper format and includes the Id Primary Key
-    return true if attributes.has_key?('id')
-    errors.add(:data, message: "incorrect format of data") and return false
+    # Checks to make sure the data is in the proper format and includes the
+    #   id Primary Key
+    return true if attributes.key?('id')
+    errors.add(:data, message: 'incorrect format of data')
+    false # is not valid
   end
 
   def handle_error(e)
-    errors.add(:data, message: e.message) and return false
+    errors.add(:data, message: e.message)
+    false # did not save
   end
 
   # Required for active model errors integration
