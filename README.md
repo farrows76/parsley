@@ -29,6 +29,8 @@ the following curl command to upload the example file:
   curl -i -X POST -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/upload -d '{"url": "https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output" }'
 ```
 
+Feel free to try some of the other endpoints before adding data to see how they work as well.
+
 ## Making Requests
 
 There are four endpoints that can be used to interact with the API. http://parsley.us-west-2.elasticbeanstalk.com
