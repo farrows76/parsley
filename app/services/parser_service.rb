@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'json'
 
 # Opens a file from a url then parses each line and turns it into a
 #   JSON Dictionary and stores the JSON in a DynamoDB NoSQL Database
@@ -37,7 +38,7 @@ class ParserService
     return nil unless elements.length == 2
 
     # Return the correctly formatted hash
-    { 'id' => JSON.parse(elements[0]) }.merge(JSON.parse(elements[1]))
+    { id: elements[0] }.merge(JSON.parse(elements[1]))
   end
 
   private
