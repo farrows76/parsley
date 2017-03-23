@@ -78,7 +78,7 @@ An example of an update request would be like this:
 
 ```shell
   # Using curl to make the PUT update request
-  curl -i -X PUT -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/update -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":"false","publish_track_actions":"false"},"notification_settings":{"just_announced":"false","friend_comment":"true"}}}}'
+  curl -i -X PUT -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/update -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":"false","publish_track_actions":"false"},"notification_settings":{"just_announced":"false","friend_comment":"true"}}}'
   
   # Either returns a 404 not found
   => {"status":404,"error":"Not Found"}
