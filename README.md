@@ -40,7 +40,7 @@ A JSON request to the API would look like this:
   }
 ```
 
-### Find
+## Find
 
 Find expects you to pass an **ID** along with the request to find a specific item in the database.
 
@@ -57,7 +57,24 @@ An example of a find request would be like this:
   => {"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}
 ```
 
+## Update
 
+Find expects you to pass an **item** hash in the body of the request. The **item** hash must have least an **id** as a key.
+Updating an item will update the existing key's values that were stored in the database as well add any additional key/values
+that were are new.
+
+An example of a update request would be like this:
+
+```shell
+  # Using curl to make the PUT request
+  curl -i -X PUT -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/update -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":"false","publish_track_actions":"false"},"notification_settings":{"just_announced":"false","friend_comment":"true"}}}}'
+  
+  # Either returns a 404 not found
+  => {"status":404,"error":"Not Found"}
+  
+  # Or the updated item as it was stored in the database
+  => {"id":"1033424","sharing_settings":{"publish_rsvp_actions":false,"publish_track_actions":false},"notification_settings":{"just_announced":false,"friend_comment":true}}}
+```
 
 
 
@@ -67,10 +84,9 @@ Example URL: https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30b
 
 
 ```
-curl --header "Accept:application/json" http://parsley.us-west-2.elasticbeanstalk.com/find/1033424
 curl -i -X POST -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/create -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}}'
-curl -i -X PUT -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/update -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}}'
-curl -i -X PUT -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/update -d '{"item":{"id":"1033424","sharing_settings":{"publish_rsvp_actions":false,"publish_track_actions":false}, "notification_settings": {"just_announced": "false", "friend_comment": "true"}}}'
+
+
 curl -i -X POST -H "Content-Type:application/json" http://parsley.us-west-2.elasticbeanstalk.com/upload -d '{"url": "https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output" }'
 ```
 
