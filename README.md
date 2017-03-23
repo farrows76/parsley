@@ -1,25 +1,62 @@
 # Welcome to Parsley
 
 Parsely is an API that migrates data from that file and inserts the data into a NoSQL database (DynamoDB).
-Parsely has four endpoints (find, update, create, and upload) where you can store new or update existing items
+Parsely has four endpoints (Find, Update, Create, and Upload) where you can store new or update existing items
 in the NoSQL database.
+
+Endpoints:
+
+  * GET http://parsley.us-west-2.elasticbeanstalk.com/find/:id
+  
+  * PUT http://parsley.us-west-2.elasticbeanstalk.com/update
+  
+  * POST http://parsley.us-west-2.elasticbeanstalk.com/create
+
+  * POST http://parsley.us-west-2.elasticbeanstalk.com/upload
 
 ## System Dependencies
   * Ruby 2.3
   * Rails 5.0.2
-  * AWS DYnamoDB
+  * AWS DynamoDB
   * AWS Elastic Beanstalk
-  
 
-Endpoints:
+## Making Requests
 
-  * parsley.us-west-2.elasticbeanstalk.com/find/:id
-  
-  * parsley.us-west-2.elasticbeanstalk.com/update
-  
-  * parsley.us-west-2.elasticbeanstalk.com/create
+There are four endpoints that can be used to interact with the API. http://parsley.us-west-2.elasticbeanstalk.com
 
-  * parsley.us-west-2.elasticbeanstalk.com/upload
+A JSON request to the API would look like this:
+
+```
+  POST http://parsley.us-west-2.elasticbeanstalk.com/create 
+
+  {
+    "item": {
+      "id": "1033424",
+      "sharing_settings": {
+        "publish_rsvp_actions": true,
+        "publish_track_actions": true
+      }
+    }
+  }
+```
+
+### Find
+
+Find expects you to pass an **ID** along with the request to find a specific item in the database.
+
+An example of a find request would be like this:
+
+```
+  // Using curl to make the GET request
+  curl --header "Accept:application/json" http://parsley.us-west-2.elasticbeanstalk.com/find/1033424
+  
+  // Either returns a 404 not found
+  {"status":404,"error":"Not Found"}
+  
+  // Or the item from the database
+  {"id":"1033424","sharing_settings":{"publish_rsvp_actions":true,"publish_track_actions":true}}
+```
+
 
 
 
@@ -28,17 +65,6 @@ Endpoints:
 
 Example URL: https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output
 
-```
-require 'net/http'
-
-url = URI.parse('http://parsley.us-west-2.elasticbeanstalk.com/find/1033424')
-url = URI.parse('http://localhost:3000/find/1033424')
-req = Net::HTTP::Get.new(url.to_s)
-res = Net::HTTP.start(url.host, url.port) {|http|
-  http.request(req)
-}
-puts res.body
-```
 
 ```
 curl --header "Accept:application/json" http://parsley.us-west-2.elasticbeanstalk.com/find/1033424
