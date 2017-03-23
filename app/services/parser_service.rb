@@ -2,7 +2,7 @@ require 'open-uri'
 # Opens a file from a url then parses each line and turns it into a JSON Dictionary
 # Example URL: https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output
 
-class FileService
+class ParserService
   attr_reader :url
 
   def initialize(url)
