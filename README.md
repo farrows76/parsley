@@ -6,19 +6,28 @@ in the NoSQL database. Before the item is stored, the API will change all the "t
 
 Endpoints:
 
-  * GET http://parsley.us-west-2.elasticbeanstalk.com/find/:id
-  
-  * PUT http://parsley.us-west-2.elasticbeanstalk.com/update
-  
-  * POST http://parsley.us-west-2.elasticbeanstalk.com/create
+* GET http://parsley.us-west-2.elasticbeanstalk.com/find/:id
 
-  * POST http://parsley.us-west-2.elasticbeanstalk.com/upload
+* PUT http://parsley.us-west-2.elasticbeanstalk.com/update
+
+* POST http://parsley.us-west-2.elasticbeanstalk.com/create
+
+* POST http://parsley.us-west-2.elasticbeanstalk.com/upload
 
 ## System Dependencies
-  * Ruby 2.3
-  * Rails 5.0.2
-  * AWS DynamoDB
-  * AWS Elastic Beanstalk
+
+* Ruby 2.3
+* Rails 5.0.2
+* AWS DynamoDB
+* AWS Elastic Beanstalk
+
+## Links of Interest
+
+There three files that contains most of the code for this API
+
+* Items Controller - https://github.com/farrows76/parsley/blob/master/app/controllers/items_controller.rb
+* Item Model - https://github.com/farrows76/parsley/blob/master/app/models/item.rb
+* Parser Service - https://github.com/farrows76/parsley/blob/master/app/services/parser_service.rb
 
 ## Getting Started
 
