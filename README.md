@@ -2,7 +2,7 @@
 
 Parsely is an API that parses data from a file, turns the data into a hash and inserts it into a NoSQL database (DynamoDB).
 Parsely has four endpoints (Find, Update, Create, and Upload) where you can store new or update existing items
-in the NoSQL database.
+in the NoSQL database. Before the item is stored, the API will change all the "truth" and "false" strings to booleans.
 
 Endpoints:
 
@@ -39,8 +39,6 @@ A JSON request to the API would look like this:
     }
   }
 ```
-
-> Before the item is stored, the API will change all the "truth" and "false" strings to booleans
 
 ## Find
 
