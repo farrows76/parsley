@@ -1,6 +1,6 @@
 ##
 # Represents a data hash object that is can be stored in a DynamoDB
-# NoSql Database.
+#   NoSql Database.
 class Item
   # Required dependency for ActiveModel::Errors
   extend ActiveModel::Naming
@@ -18,6 +18,8 @@ class Item
     @data = truthify_hash(val)
   end
 
+  # Converts the data hash to a format for updating an existing item in a
+  #   DynamoDB NoSql Database.
   def attributes_to_update
     tmp_data = {}
     data.each do |key, value|
