@@ -116,7 +116,7 @@ An example of a create request would be like this:
 
 ## Upload
 
-Upload expects you to pass an **URL** hash in the body of the request. The **URL** hash a valid url string with either an
+Upload expects you to pass a **URL** hash in the body of the request. The **URL** hash a valid url string with either an
 "http" or "https".
 
 Example URL: https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output
