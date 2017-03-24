@@ -82,7 +82,7 @@ An example of a find request would be like this:
 ## Update
 
 Update expects you to pass an **ITEM** hash in the body of the request. The **ITEM** hash must have at least an **id** as
-a key. Updating an item will update the existing key's values that were retrieved from the database as well add any
+a key. Updating an item will update the existing key's values that were retrieved from the database as well as add any
 additional key/values that are new.
 
 An example of an update request would be like this:
