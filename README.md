@@ -120,9 +120,9 @@ An example of a create request would be like this:
 
 Upload expects you to pass a **URL** hash in the body of the request. The **URL** hash contains a valid url string with
 either an "http" or "https". This version takes each line in the file, parses and converts it to a properly formatted
-hash then adds it to the DynamoDB Database. It's not the most efficient way to handle a large file, the purposes of this
+hash then adds it to the DynamoDB Database. This is not the most efficient way to handle a large file. The purpose of this
 API call is to show how the API can parse and format a string correclty. For larger files it would be best to do this in
-batches and in a background task.
+batches and in a background job.
 
 Example URL: https://gist.githubusercontent.com/fcastellanos/86f02c83a5be6c7a30be390d63057d7d/raw/b25c562a6823a26a700a7ea08004c456ad8e2184/output
 
