@@ -38,7 +38,7 @@ class ParserService
     return nil unless elements.length == 2
 
     # Return the correctly formatted hash
-    { 'id' => elements[0] }.merge(JSON.parse(elements[1]))
+    { 'id' => elements[0].gsub!(/\A"|"\Z/, '') }.merge(JSON.parse(elements[1]))
   end
 
   private
