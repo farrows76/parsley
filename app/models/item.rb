@@ -53,7 +53,7 @@ class Item
 
   def update(attributes)
     return false unless valid?(attributes)
-    data.merge!(truthify_hash(attributes)) # make sure we truthify the updated attributes
+    data.merge!(truthify_hash(attributes)) # truthify the updated attributes
     dynamodb.update_item(
       table_name: 'Bandsintown',
       key: { id: data['id'] },
