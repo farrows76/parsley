@@ -1,4 +1,5 @@
 # Welcome to Parsley
+[![Build Status](https://travis-ci.org/farrows76/parsley.svg?branch=master)](https://travis-ci.org/farrows76/parsley)
 
 Parsley is an API that parses data from a file, turns the data into a hash and inserts it into a NoSQL database (DynamoDB).
 Parsley has four endpoints (Find, Update, Create, and Upload) where you can store new or update existing items
